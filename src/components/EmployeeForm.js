@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 function EmployeeForm() {
-  const [fullName, setFullName] = useState("");
+  const [full_name, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState(new Date());
@@ -10,7 +10,7 @@ function EmployeeForm() {
   function handleSubmit(event) {
     event.preventDefault();
     console.log({
-      fullName,
+      full_name,
       email,
       phoneNumber,
       dateOfBirth,
@@ -26,7 +26,7 @@ function EmployeeForm() {
         <input
           type="text"
           id="fullName"
-          value={fullName}
+          value={full_name}
           onChange={(event) => setFullName(event.target.value)}
           required
         />
