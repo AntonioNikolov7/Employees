@@ -1,79 +1,90 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import "./EmployeeForm.css";
 
-function EmployeeForm() {
-  const [full_name, setFullName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [dateOfBirth, setDateOfBirth] = useState(new Date());
-  const [monthlySalary, setMonthlySalary] = useState(0);
+const EmployeeForm = ({ onSuccess, employee }) => {
+  const [formData, setFormData] = useState({
+    full_name: "",
+    email: "",
+    phoneNumber: 0,
+    dateOfBirth: 0,
+    monthlySalary: 0,
+  });
 
-  function handleSubmit(event) {
-    event.preventDefault();
-    console.log({
-      full_name,
-      email,
-      phoneNumber,
-      dateOfBirth,
-      monthlySalary,
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prevState) => ({ ...prevState, [name]: value }));
+  };
+
+  const addEmployees = async () => {
+    const response = await fetch("http://localhost:5000/employees/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
     });
-    // you can do further processing with the form data here
-  }
+
+    if (response.ok) {
+      onSuccess();
+    }
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    addEmployees();
+  };
+  console.log(employee);
 
   return (
     <form onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="fullName">Full Name:</label>
+      <label>
+        Full Name:
         <input
           type="text"
-          id="fullName"
-          value={full_name}
-          onChange={(event) => setFullName(event.target.value)}
-          required
+          name="full_name"
+          value={formData.full_name}
+          onChange={handleInputChange}
         />
-      </div>
-      <div>
-        <label htmlFor="email">Email:</label>
+      </label>
+      <label>
+        Email:
         <input
           type="email"
-          id="email"
-          value={email}
-          onChange={(event) => setEmail(event.target.value)}
-          required
+          name="email"
+          value={formData.email}
+          onChange={handleInputChange}
         />
-      </div>
-      <div>
-        <label htmlFor="phoneNumber">Phone Number:</label>
-        <input
-          type="tel"
-          id="phoneNumber"
-          value={phoneNumber}
-          onChange={(event) => setPhoneNumber(event.target.value)}
-          required
-        />
-      </div>
-      <div>
-        <label htmlFor="dateOfBirth">Date of Birth:</label>
-        <input
-          type="date"
-          id="dateOfBirth"
-          value={dateOfBirth}
-          onChange={(event) => setDateOfBirth(event.target.value)}
-          required
-        />
-      </div>
-      <div>
-        <label htmlFor="monthlySalary">Monthly Salary:</label>
+      </label>
+      <label>
+        Phone Number:
         <input
           type="number"
-          id="monthlySalary"
-          value={monthlySalary}
-          onChange={(event) => setMonthlySalary(event.target.value)}
-          required
+          name="phoneNumber"
+          value={formData.phoneNumber}
+          onChange={handleInputChange}
         />
-      </div>
+      </label>
+      <label>
+        Date of Birth:
+        <input
+          type="date"
+          name="dateOfBirth"
+          value={formData.dateOfBirth}
+          onChange={handleInputChange}
+        />
+      </label>
+      <label>
+        Monthly Salary:
+        <input
+          type="number"
+          name="monthlySalary"
+          value={formData.monthlySalary}
+          onChange={handleInputChange}
+        />
+      </label>
       <button type="submit">Submit</button>
     </form>
   );
-}
+};
 
 export default EmployeeForm;
