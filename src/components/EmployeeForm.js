@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./EmployeeForm.css";
 
-const EmployeeForm = ({ onSuccess, employee }) => {
+const EmployeeForm = ({ onSuccess, employee, teams }) => {
   const [formData, setFormData] = useState({
     full_name: "",
     email: "",
@@ -33,7 +33,6 @@ const EmployeeForm = ({ onSuccess, employee }) => {
     event.preventDefault();
     addEmployees();
   };
-  console.log(employee);
 
   return (
     <form onSubmit={handleSubmit}>
@@ -81,6 +80,28 @@ const EmployeeForm = ({ onSuccess, employee }) => {
           value={formData.monthlySalary}
           onChange={handleInputChange}
         />
+      </label>
+
+      <label>
+        Team:
+        <select
+          id="team"
+          name="team"
+          form="tasksForm"
+          onChange={handleInputChange}
+        >
+          {" "}
+          <option key={"placeholder"} value={"placeholder"}>
+            ----
+          </option>
+          {teams.map((team) => {
+            return (
+              <option key={team?.id} value={team?.id}>
+                {team?.name}
+              </option>
+            );
+          })}
+        </select>
       </label>
       <button type="submit">Submit</button>
     </form>

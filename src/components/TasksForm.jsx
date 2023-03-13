@@ -11,14 +11,10 @@ const TasksForm = ({ employees, onSuccess }) => {
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    console.log("name", name);
-    console.log("value", value);
-
     setFormData((prevState) => ({ ...prevState, [name]: value }));
   };
 
   const addTasks = async () => {
-    console.log("form", formData);
     const response = await fetch("http://localhost:5000/tasks/", {
       method: "POST",
       headers: {
